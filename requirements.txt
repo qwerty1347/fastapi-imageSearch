@@ -1,0 +1,58 @@
+# -----------------------------
+# FastAPI & ASGI Server
+# -----------------------------
+fastapi==0.110.0              # FastAPI web framework
+uvicorn[standard]==0.34.3     # ASGI server (auto-reload, logging, uvloop, etc.)
+
+# -----------------------------
+# Jupyter Notebook (for development / experiments)
+# -----------------------------
+notebook==7.5.0               # Jupyter Notebook server (for experiments, data inspection, embedding testing)
+
+# -----------------------------
+# Configuration management & time handling
+# -----------------------------
+python-decouple==3.8          # Load environment variables from .env
+pytz==2025.2                  # Timezone support for datetime
+
+# -----------------------------
+# Data validation
+# -----------------------------
+pydantic==2.12.4              # Data modeling/validation library
+
+# -----------------------------
+# File upload
+# -----------------------------
+python-multipart==0.0.20      # Parses multipart/form-data for FastAPI file uploads
+
+# -----------------------------
+# MySQL (async) ORM related
+# -----------------------------
+SQLAlchemy==2.0.35            # SQL ORM
+aiomysql==0.2.0               # Async MySQL driver
+alembic==1.13.1               # DB migrations
+
+# -----------------------------
+# MongoDB (async ODM) related
+# -----------------------------
+motor==3.7.1                  # Async MongoDB driver
+beanie==1.27.0                # ODM based on Pydantic + Motor
+
+# -----------------------------
+# AI / Vision
+# -----------------------------
+ultralytics>=8.3.0        # YOLOv8 / YOLO-World (AGPL)
+faiss-cpu>=1.8.0          # Vector similarity search (MIT)
+open-clip-torch>=2.24.0   # CLIP (OpenCLIP, MIT)
+
+# -----------------------------
+# Image / Numeric
+# -----------------------------
+pillow>=10.0.0
+opencv-python-headless>=4.9.0
+numpy>=1.26.0
+
+
+# 수동 설치
+# pip install torch torchvision torchaudio
+# pip install open-clip-torch

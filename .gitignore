@@ -1,0 +1,11 @@
+__pycache__/
+.env
+.env.backup
+.venv
+/.docker/mysql/data
+/.docker/mongo/data
+/.docker/qdrant/data
+/notebooks/.ipynb_checkpoints
+/storage/logs
+/storage/uploads
+/.vscode
