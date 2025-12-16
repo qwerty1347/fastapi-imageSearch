@@ -2,10 +2,12 @@ __pycache__/
 .env
 .env.backup
 .venv
+yolov8n.pt
 /.docker/mysql/data
 /.docker/mongo/data
 /.docker/qdrant/data
 /notebooks/.ipynb_checkpoints
+/notebooks/yolov8n.pt
 /storage/logs
 /storage/uploads
 /.vscode
