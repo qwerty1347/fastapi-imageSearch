@@ -19,6 +19,7 @@ pytz==2025.2                  # Timezone support for datetime
 # Data validation
 # -----------------------------
 pydantic==2.12.4              # Data modeling/validation library
+pydantic-settings
 
 # -----------------------------
 # File upload
@@ -39,20 +40,30 @@ motor==3.7.1                  # Async MongoDB driver
 beanie==1.27.0                # ODM based on Pydantic + Motor
 
 # -----------------------------
-# AI / Vision
+# Qdrant Vector DB Client
 # -----------------------------
-ultralytics>=8.3.0        # YOLOv8 / YOLO-World (AGPL)
-faiss-cpu>=1.8.0          # Vector similarity search (MIT)
-open-clip-torch>=2.24.0   # CLIP (OpenCLIP, MIT)
+qdrant-client==1.16.2         # Qdrant vector DB client
 
 # -----------------------------
-# Image / Numeric
+# HuggingFace & Local LLM/Embedding
 # -----------------------------
-pillow>=10.0.0
-opencv-python-headless>=4.9.0
-numpy>=1.26.0
+transformers==4.43.0          # HuggingFace Transformers library
+sentence-transformers==5.1.0  # Local embedding model (no OpenAI API needed)
+
+# -----------------------------
+# AI / Computer Vision Models
+# -----------------------------
+ultralytics==8.3.237          # YOLOv8 & YOLO-World for object detection (AGPL license)
+faiss-cpu==1.13.1             # FAISS CPU version for fast vector similarity search (MIT license)
+open-clip-torch==3.2.0        # OpenCLIP: CLIP models for image-text embeddings (MIT license)
+
+# -----------------------------
+# Image Processing / Numerical Computing
+# -----------------------------
+pillow==12.0.0                # Image loading, saving, and basic image processing
+opencv-python-headless==4.12.0.88  # OpenCV without GUI support (for server / Docker environments)
+numpy==2.2.6                  # Core numerical computing library (arrays, math, linear algebra)
 
 
-# 수동 설치
 # pip install torch torchvision torchaudio
 # pip install open-clip-torch
