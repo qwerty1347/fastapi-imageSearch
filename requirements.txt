@@ -44,6 +44,9 @@ beanie==1.27.0                # ODM based on Pydantic + Motor
 # -----------------------------
 qdrant-client==1.16.2         # Qdrant vector DB client
 
+langgraph==1.0.5              # State-based graph framework for multi-step AI workflows
+langchain-core==1.2.5         # Core abstractions required by LangGraph (no LLM dependency)
+
 # -----------------------------
 # HuggingFace & Local LLM/Embedding
 # -----------------------------

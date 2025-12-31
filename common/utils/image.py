@@ -2,7 +2,12 @@ from pathlib import Path
 from ultralytics import YOLO
 from PIL import Image
 
-from config.embedding_model import EmbeddingModel
+from config.settings import settings
+
+
+def convert_to_static_image_url(image_path: Path) -> str:
+    relative = image_path.relative_to(settings.STORAGE_PATH)
+    return f"/static/{relative.as_posix()}"
 
 
 def detect_confidence_objects(image_path: Path):

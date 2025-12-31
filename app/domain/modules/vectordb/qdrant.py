@@ -16,8 +16,10 @@ class Qdrant():
 
 
     async def find_points(self, collection_name: str, query: list, limit: int = 5):
-        return await self.qdrant.query_points(
+        response = await self.qdrant.query_points(
             collection_name=collection_name,
             query=query,
             limit=limit
         )
+
+        return response.points

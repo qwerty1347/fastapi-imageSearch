@@ -11,6 +11,4 @@ agent_service = AgentService()
 async def index(
     file: UploadFile = File(...)
 ):
-    await agent_service.handle_image(file)
-    print(file)
-    return {"message": "Hello ImageSearch"}
+    return await agent_service.handle_image(file)

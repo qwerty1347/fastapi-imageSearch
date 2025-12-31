@@ -5,7 +5,7 @@ from qdrant_client.http.models import PointStruct
 
 from app.domain.modules.vectordb.qdrant import Qdrant
 from config.embedding_model import EmbeddingModel
-from common.utils.image import create_point_data, detect_confidence_objects
+from common.utils.image import convert_to_static_image_url, create_point_data, detect_confidence_objects
 from common.utils.storage import get_fruits_image_path
 
 
@@ -39,7 +39,7 @@ class VectorDBService:
                         id=str(uuid.uuid4()),
                         vector=embedding_model.encode(point_data['crop']),
                         payload={
-                            "image_path": image_path,
+                            "image": convert_to_static_image_url(image_path),
                             "bbox": point_data['bbox'],
                         }
                     )

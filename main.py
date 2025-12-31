@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.api.router_collector import get_api_routers
+from common.exceptions.handlers import register_exception_handlers
 from config.settings import settings
 
 
@@ -16,6 +17,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+register_exception_handlers(app)
 
 for router in get_api_routers():
     app.include_router(router)
