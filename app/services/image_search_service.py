@@ -6,13 +6,13 @@ from fastapi import UploadFile
 from fastapi.encoders import jsonable_encoder
 from sentence_transformers import SentenceTransformer
 
-from app.domain.services.vectordb_service import VectorDBService
+from app.services.vectordb_service import VectorDBService
 from config.embedding_model import EmbeddingModel
 from common.utils.image import create_point_data, detect_confidence_objects
 from common.utils.response import error_response, success_response
 
 
-class AgentService():
+class ImageSearchService():
     def __init__(self):
         self.vectordb_service = VectorDBService()
 
@@ -32,7 +32,7 @@ class AgentService():
 
             embedding_model = SentenceTransformer(EmbeddingModel.MODELS['hugging_face']['clip']['ViT-L-14']['name'])
             embedded = embedding_model.encode(point_data['crop'])
-            response = await self.vectordb_service.qdrant.find_points(collection_name="fruits", query=embedded, limit=5)
+            response = await self.vectordb_service.qdrant.find_points(collection_name="fruits", query=embedded, limit=10)
             result = self.parse_data_from_points(response)
 
             return success_response(jsonable_encoder(result))

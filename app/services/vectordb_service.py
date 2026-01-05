@@ -3,7 +3,7 @@ import uuid
 from sentence_transformers import SentenceTransformer
 from qdrant_client.http.models import PointStruct
 
-from app.domain.modules.vectordb.qdrant import Qdrant
+from app.modules.vectordb.qdrant import Qdrant
 from config.embedding_model import EmbeddingModel
 from common.utils.image import convert_to_static_image_url, create_point_data, detect_confidence_objects
 from common.utils.storage import get_fruits_image_path

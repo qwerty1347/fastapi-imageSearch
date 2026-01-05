@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.domain.services.vectordb_service import VectorDBService
+from app.services.vectordb_service import VectorDBService
 from common.utils.response import success_response
 
 

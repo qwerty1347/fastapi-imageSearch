@@ -1,14 +1,14 @@
 from fastapi import APIRouter, File, UploadFile
 
-from app.domain.services.agent_service import AgentService
+from app.services.image_search_service import ImageSearchService
 
 
-router = APIRouter(prefix="/image", tags=["Agent"])
-agent_service = AgentService()
+router = APIRouter(prefix="/image", tags=["ImageSearch"])
+image_search_service = ImageSearchService()
 
 
 @router.post('/')
 async def index(
     file: UploadFile = File(...)
 ):
-    return await agent_service.handle_image(file)
+    return await image_search_service.handle_image(file)
