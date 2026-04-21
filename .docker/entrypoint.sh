@@ -13,13 +13,17 @@ case "$SERVICE_TYPE" in
         # Celery 워커 (embedding 큐 전용)
         exec uv run celery -A app.worker.celery_app worker --loglevel=info -Q embedding --concurrency=2
         ;;
+    flower)
+        # Celery Flower 모니터링 UI
+        exec uv run celery -A app.worker.celery_app flower --port=5555
+        ;;
     beat)
         # Celery 주기 작업 스케줄러 (필요 시 사용)
         exec uv run celery -A app.worker.celery_app beat --loglevel=info
         ;;
     *)
         echo "ERROR: SERVICE_TYPE is not set or invalid: '$SERVICE_TYPE'"
-        echo "Valid values: api | worker | beat"
+        echo "Valid values: app | worker | flower | beat"
         exit 1
         ;;
 esac

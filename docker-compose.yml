@@ -84,6 +84,23 @@ services:
       CELERY_RESULT_BACKEND: redis://fastapi_imageSearch-redis:6379/1
       QDRANT_HOST: fastapi_imageSearch-qdrant
 
+  flower:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    container_name: fastapi_imageSearch-flower
+    volumes:
+      - ./:/app
+      - venv_data:/app/.venv
+    ports:
+      - "5555:5555"
+    networks:
+      - local_network
+    environment:
+      SERVICE_TYPE: flower
+      CELERY_BROKER_URL: redis://fastapi_imageSearch-redis:6379/0
+      CELERY_RESULT_BACKEND: redis://fastapi_imageSearch-redis:6379/1
+
 volumes:
   venv_data:
 
