@@ -1,0 +1,25 @@
+[project]
+name = "fastapi-imageSearch"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    # Web framework
+    "fastapi==0.136.0",                 # ASGI 웹 프레임워크
+    "uvicorn[standard]==0.44.0",        # ASGI 서버 (auto-reload, uvloop 등 포함)
+
+    # Validation & settings
+    "pydantic==2.13.2",                 # 데이터 검증 / 직렬화
+    "pydantic-settings==2.13.1",        # 환경변수 기반 설정 관리
+
+    # Test
+    "pytest",                           # 테스트 프레임워크
+    "pytest-asyncio",                   # pytest 비동기 지원
+
+    "notebook==7.5.5",
+    "celery",
+    "redis",
+    "flower",
+
+    "qdrant-client",
+    "sentence-transformers"
+]

@@ -1,11 +1,10 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: fastapi_agent-mysql
+    container_name: fastapi_imageSearch-mysql
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - ./.docker/mysql/data:/var/lib/mysql
-      - ./.docker/mysql/my.cnf:/etc/mysql/mysql.conf.d/custom.cnf
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: fastapi
@@ -18,7 +17,7 @@ services:
 
   mongo:
     image: mongo:latest
-    container_name: fastapi_agent-mongodb
+    container_name: fastapi_imageSearch-mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
@@ -31,7 +30,7 @@ services:
 
   qdrant:
     image: qdrant/qdrant:v1.15.4
-    container_name: fastapi_agent-qdrant
+    container_name: fastapi_imageSearch-qdrant
     ports:
       - "6333:6333"
       - "6334:6334"
@@ -46,18 +45,47 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    container_name: fastapi_agent
+    container_name: fastapi_imageSearch
     volumes:
       - ./:/app
-      - ./notebooks:/app/notebooks
+      - venv_data:/app/.venv
     ports:
       - "9100:8000"
       - "8888:8888"
     networks:
       - local_network
     environment:
-      DB_HOST: fastapi_agent-mysql
-      MONGO_DB_HOST: fastapi_agent-mongodb
+      SERVICE_TYPE: app
+      DB_HOST: fastapi_imageSearch-mysql
+      MONGO_DB_HOST: fastapi_imageSearch-mongodb
+      CELERY_BROKER_URL: redis://fastapi_imageSearch-redis:6379/0
+
+  redis:
+    image: redis:latest
+    container_name: fastapi_imageSearch-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - local_network
+
+  celery:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    container_name: fastapi_imageSearch-celery
+    volumes:
+      - ./:/app
+      - venv_data:/app/.venv
+    networks:
+      - local_network
+    environment:
+      SERVICE_TYPE: worker
+      CELERY_BROKER_URL: redis://fastapi_imageSearch-redis:6379/0
+      CELERY_RESULT_BACKEND: redis://fastapi_imageSearch-redis:6379/1
+      QDRANT_HOST: fastapi_imageSearch-qdrant
+
+volumes:
+  venv_data:
 
 networks:
   local_network:
