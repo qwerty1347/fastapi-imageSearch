@@ -1,22 +1,22 @@
-from qdrant_client import AsyncQdrantClient
+from qdrant_client import QdrantClient
 
-from config.settings import settings
+from app.core.config import config
 
 
 class Qdrant():
     def __init__(self):
-        self.qdrant = AsyncQdrantClient(url=settings.QDRANT_HOST)
+        self.qdrant = QdrantClient(url=config.QDRANT_HOST)
 
 
-    async def upsert_points(self, collection_name: str, points: list):
-        await self.qdrant.upsert(
+    def upsert_points(self, collection_name: str, points: list):
+        self.qdrant.upsert(
             collection_name=collection_name,
             points=points
         )
 
 
-    async def find_points(self, collection_name: str, query: list, limit: int = 5):
-        response = await self.qdrant.query_points(
+    def find_points(self, collection_name: str, query: list, limit: int = 5):
+        response = self.qdrant.query_points(
             collection_name=collection_name,
             query=query,
             limit=limit

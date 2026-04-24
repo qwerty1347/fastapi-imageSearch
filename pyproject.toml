@@ -16,10 +16,15 @@ dependencies = [
     "pytest-asyncio",                   # pytest 비동기 지원
 
     "notebook==7.5.5",
-    "celery",
-    "redis",
-    "flower",
+    "celery==5.6.3",
+    "redis==7.4.0",
+    "flower==2.0.1",
 
-    "qdrant-client",
-    "sentence-transformers"
+    "qdrant-client==1.17.1",
+    "sentence-transformers==5.4.1",
+
+    "ultralytics==8.4.40",
+    "pillow==12.2.0",
+    "numpy==2.4.4",
+    "torch==2.11.0"
 ]
