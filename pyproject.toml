@@ -6,6 +6,7 @@ dependencies = [
     # Web framework
     "fastapi==0.136.0",                 # ASGI 웹 프레임워크
     "uvicorn[standard]==0.44.0",        # ASGI 서버 (auto-reload, uvloop 등 포함)
+    "python-multipart",                 # multipart/form-data 파싱 (파일 업로드)
 
     # Validation & settings
     "pydantic==2.13.2",                 # 데이터 검증 / 직렬화

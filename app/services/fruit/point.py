@@ -6,45 +6,51 @@ from qdrant_client.models import PointStruct
 from sentence_transformers import SentenceTransformer
 from ultralytics import YOLO
 
-from app.domain.modules.vectordb.qdrant import Qdrant
-from app.infrastructure.storage.fruit import get_fruit_images
-from common.utils.image import get_image_ratio
-from common.utils.url import convert_to_static_image_url
+from app.core.utils.image import get_image_ratio
+from app.core.utils.url import convert_to_static_image_url
+from app.infrastructure.storage.image import get_fruit_images
+from app.infrastructure.vectordb.qdrant import Qdrant
 from config.embedding_model import EmbeddingModel
 
 
 class FruitPointService():
     def __init__(self):
         self.qdrant = Qdrant()
+        self.embedding_model = SentenceTransformer(EmbeddingModel.MODELS['hugging_face']['clip']['ViT-L-14']['name'])
+        self.yolo_model = YOLO("yolov8n-oiv7.pt")
 
 
-    def build_points(self):
+    def embed_fruit_images(self):
         fruits_image_path = get_fruit_images()
         points = []
 
-        embedding_model = SentenceTransformer(EmbeddingModel.MODELS['hugging_face']['clip']['ViT-L-14']['name'])
-        yolo_model = YOLO("yolov8n-oiv7.pt")
-
         for image_path in fruits_image_path:
-            detected_objects = yolo_model(image_path, conf=0.1)[0]
-            point_data = self.create_point_data(image_path, detected_objects)
+            detected_objects = self.detect_objects_from_image(image_path)
+            custom_point_data = self.create_point_data(image_path, detected_objects)
 
-            if point_data is None:
-                print(f"point_data is None: {image_path}")
+            if custom_point_data is None:
                 continue
 
-            points.append(
-                PointStruct(
-                    id=str(uuid.uuid4()),
-                    vector=embedding_model.encode(point_data['crop']),
-                    payload={
-                        "image": convert_to_static_image_url(image_path),
-                        "bbox": point_data['bbox'],
-                    }
-                )
-            )
+            points.append(self.build_points(image_path, custom_point_data))
 
         self.qdrant.upsert_points(collection_name="fruits", points=points)
+
+
+    def build_points(self, image_path, custom_point_data):
+        return PointStruct(
+            id=str(uuid.uuid4()),
+            vector=self.embedding_model.encode(custom_point_data['crop']),
+            payload={
+                "image": convert_to_static_image_url(image_path),
+                "bbox": custom_point_data['bbox'],
+            }
+        )
+
+
+
+
+    def detect_objects_from_image(self, image_path: Path):
+        return self.yolo_model(image_path, conf=0.1)[0]
 
 
     def create_point_data(self, image_path: Path, detected_objects) -> dict | None:

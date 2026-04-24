@@ -1,4 +1,7 @@
 from pathlib import Path
+import tempfile
+
+from fastapi import UploadFile
 
 from app.core.config import config
 
@@ -20,3 +23,10 @@ def get_fruit_images() -> list[Path]:
 
 def get_sample_image_path() -> Path:
     return Path(config.STORAGE_PATH) / "images" / "apple.jpg"
+
+
+async def save_image_to_temp(file: UploadFile) -> Path:
+    with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as temp_file:
+        temp_file.write(await file.read())
+        temp_file.flush()
+        return Path(temp_file.name)
