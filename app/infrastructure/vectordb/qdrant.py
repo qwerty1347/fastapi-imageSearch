@@ -4,8 +4,8 @@ from app.core.config import config
 
 
 class Qdrant():
-    def __init__(self):
-        self.qdrant = QdrantClient(url=config.QDRANT_HOST)
+    def __init__(self, client: QdrantClient):
+        self.qdrant = client
 
 
     def upsert_points(self, collection_name: str, points: list):

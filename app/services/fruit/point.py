@@ -14,10 +14,10 @@ from config.embedding_model import EmbeddingModel
 
 
 class FruitPointService():
-    def __init__(self):
-        self.qdrant = Qdrant()
-        self.embedding_model = SentenceTransformer(EmbeddingModel.MODELS['hugging_face']['clip']['ViT-L-14']['name'])
-        self.yolo_model = YOLO("yolov8n-oiv7.pt")
+    def __init__(self, qdrant: Qdrant, embedding_model: SentenceTransformer, yolo_model: YOLO):
+        self.qdrant = qdrant
+        self.embedding_model = embedding_model
+        self.yolo_model = yolo_model
 
 
     def embed_fruit_images(self):
@@ -36,9 +36,9 @@ class FruitPointService():
         self.qdrant.upsert_points(collection_name="fruits", points=points)
 
 
-    def build_points(self, image_path, custom_point_data):
+    def build_points(self, image_path: Path, custom_point_data):
         return PointStruct(
-            id=str(uuid.uuid4()),
+            id=str(uuid.uuid5(uuid.NAMESPACE_URL, image_path.name)),
             vector=self.embedding_model.encode(custom_point_data['crop']),
             payload={
                 "image": convert_to_static_image_url(image_path),
