@@ -1,0 +1,23 @@
+from pathlib import Path
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Config(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="allow"
+    )
+
+    QDRANT_HOST: str
+    CELERY_BROKER_URL: str
+    CELERY_RESULT_BACKEND: str
+    STORAGE_PATH: str
+    ALLOWED_ORIGINS: str
+
+
+config = Config()
+
+ALLOWED_ORIGINS = []
+BASE_DIR = Path(__file__).resolve().parent.parent
+STORAGE_PATH = BASE_DIR / config.STORAGE_PATH

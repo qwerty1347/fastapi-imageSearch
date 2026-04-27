@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 WORKDIR /app
 
@@ -7,16 +7,20 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 RUN pip install --upgrade pip setuptools wheel
+RUN pip install uv
+
+COPY pyproject.toml ./
+
+RUN uv sync --no-dev
 
 COPY ./app /app
-
-COPY requirements.txt ./requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
 COPY .env .env
-
 COPY .docker/entrypoint.sh /entrypoint.sh
+
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
