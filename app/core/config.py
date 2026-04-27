@@ -13,6 +13,7 @@ class Config(BaseSettings):
     CELERY_BROKER_URL: str
     CELERY_RESULT_BACKEND: str
     STORAGE_PATH: str
+    ALLOWED_ORIGINS: str
 
 
 config = Config()
