@@ -44,6 +44,19 @@ celery.conf.update(
     # 워커가 태스크를 시작하면 STARTED 상태로 표시. Flower나 AsyncResult에서
     # PENDING(대기중) ↔ STARTED(실행중) 구분이 가능해져 모니터링/디버깅에 유리.
     task_track_started=True,
+
+    # 직렬화 포맷. 보안상 pickle은 피하고 json으로 통일.
+    task_serializer="json",
+    result_serializer="json",
+    accept_content=["json"],
+
+    # 시간대. 로그/스케줄에 한국 시간이 찍히도록 한다.
+    timezone="Asia/Seoul",
+    enable_utc=False,
+
+    # 워커가 일정 횟수 태스크를 처리한 뒤 자식 프로세스를 재시작하여 메모리 누수를 방지한다.
+    # PaddleOCR/EasyOCR은 모델을 메모리에 들고 있어 장시간 누수 가능성이 있다.
+    worker_max_tasks_per_child=200,
 )
 
 
