@@ -1,3 +1,7 @@
+# 모든 버전은 핀 고정. 실제 설치 시에는 uv.lock에 박제된 transitive 의존성까지 포함해
+# Dockerfile의 `uv sync --frozen`으로 재현성 있게 설치된다.
+# pyproject.toml = 원하는 의존성 명세, uv.lock = 실제로 깐 정확한 버전 + 해시.
+
 [project]
 name = "fastapi-imageSearch"
 version = "0.1.0"
@@ -16,16 +20,21 @@ dependencies = [
     "pytest",                           # 테스트 프레임워크
     "pytest-asyncio",                   # pytest 비동기 지원
 
-    "notebook==7.5.5",
-    "celery==5.6.3",
-    "redis==7.4.0",
-    "flower==2.0.1",
+    # Notebook (실험/탐색용)
+    "notebook==7.5.5",                  # Jupyter Notebook 서버 (notebooks/ 디렉터리 사용)
 
-    "qdrant-client==1.17.1",
-    "sentence-transformers==5.4.1",
+    # Async task queue
+    "celery==5.6.3",                    # 비동기 작업 큐 (임베딩 배치 처리)
+    "redis==7.4.0",                     # Celery 브로커 / 결과 백엔드
+    "flower==2.0.1",                    # Celery 모니터링 대시보드 (포트 5555)
 
-    "ultralytics==8.4.40",
-    "pillow==12.2.0",
-    "numpy==2.4.4",
-    "torch==2.11.0"
+    # Vector Database
+    "qdrant-client==1.17.1",            # Qdrant Python 클라이언트 (gRPC/HTTP)
+    "sentence-transformers==5.4.1",     # CLIP ViT-L/14 임베딩 모델 로드용
+
+    # Computer Vision
+    "ultralytics==8.4.40",              # YOLOv8 객체 검출 모델 (yolov8n-oiv7.pt)
+    "pillow==12.2.0",                   # 이미지 입출력 / 크롭
+    "numpy==2.4.4",                     # 수치 연산
+    "torch==2.11.0"                     # 딥러닝 백엔드 (CLIP/YOLO 추론)
 ]
