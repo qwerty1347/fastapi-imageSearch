@@ -45,7 +45,7 @@ async def business_exception_handler(request: Request, exc: BusinessException) -
     )
 
 
-def add_exception_handler(app):
+def add_exception_handlers(app):
     app.add_exception_handler(Exception, global_exception_handler)
     app.add_exception_handler(StarletteHTTPException, http_exception_handler)
     app.add_exception_handler(RequestValidationError, validation_exception_handler)
