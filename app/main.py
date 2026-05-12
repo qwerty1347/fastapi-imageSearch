@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api import api_router
 from app.core.config import config
 from app.core.dependencies.common import get_embedding_model, get_qdrant_client, get_yolo_model
-from app.core.exceptions.handler import add_exception_handler
+from app.core.exceptions.handler import add_exception_handlers
 from app.core.logging import setup_logging
 
 
@@ -21,7 +21,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(api_router)
-add_exception_handler(app)
+add_exception_handlers(app)
 
 origins = config.ALLOWED_ORIGINS.split(",") if config.ALLOWED_ORIGINS else []
 app.add_middleware(

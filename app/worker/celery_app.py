@@ -55,7 +55,6 @@ celery.conf.update(
     enable_utc=False,
 
     # 워커가 일정 횟수 태스크를 처리한 뒤 자식 프로세스를 재시작하여 메모리 누수를 방지한다.
-    # PaddleOCR/EasyOCR은 모델을 메모리에 들고 있어 장시간 누수 가능성이 있다.
     worker_max_tasks_per_child=200,
 )
 
